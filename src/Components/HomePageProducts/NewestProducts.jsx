@@ -41,7 +41,7 @@ const responsive2 = {
     },
   };
 
-const FeatureProdcuts = () => {
+const NewestProducts = () => {
   const [data, setData] = useState("");
 
   useEffect(() => {
@@ -57,32 +57,34 @@ const FeatureProdcuts = () => {
       const graphQLUrl = `${storeUrl.origin}/graphql`;
 
       // Set up GraphQL query
-      const graphQLQuery = `
-          query MyQuery {
-            site {
-              featuredProducts(first: 10) {
-                edges {
-                  node {
-                    description
-                    id
-                    name
-                    prices {
-                      price {
-                        value
-                      }
-                    }
-                    images {
-                      edges {
-                        node {
-                          urlOriginal
-                        }
-                      }
+      const graphQLQuery = `query MyQuery {
+        site {
+          newestProducts (first: 20, after: "YXJyYXljb25uZWN0aW9uOjE0") {
+            edges {
+              node {
+                description
+                id
+                minPurchaseQuantity
+                maxPurchaseQuantity
+                name
+                prices {
+                  price {
+                    value
+                  }
+                }
+                sku
+                images {
+                  edges {
+                    node {
+                      urlOriginal
                     }
                   }
                 }
               }
             }
-          }`;
+          }
+        }
+      }`;
 
       // Fetch data from the GraphQL Storefront API
       return fetch(graphQLUrl, {
@@ -97,7 +99,7 @@ const FeatureProdcuts = () => {
       })
         .then((res) => res.json())
         .then((res) => {
-          setData(res.data?.site?.featuredProducts?.edges);
+          setData(res.data?.site?.newestProducts?.edges);
           console.log(res.data?.site);
           res.data;
         });
@@ -111,7 +113,7 @@ const FeatureProdcuts = () => {
   return (
     <div>
       <div style={{ marginTop: "100px", marginBottom: "100px" }}>
-        <h1>Featured Products</h1>
+        <h1>Newest Products</h1>
         {data && (
           <Carousel
             responsive={responsive2}
@@ -125,21 +127,21 @@ const FeatureProdcuts = () => {
             autoPlaySpeed={4000}
           >
             {data.map((item, index) => (
-              <div >
+              <div>
               
                 <div>
                   <div style={{border:'1px solid rgba(0, 0, 0, 0.2)',display:'flex',flexDirection:'column',alignItems:'center',gap:'20px',margin:'0px 20px'}}>
                     <img
-                      style={{ height: "273px", width: "100%" }}
+                      style={{ height: "273px", width: "100%"}}
                       src={item?.node?.images?.edges[0]?.node?.urlOriginal}
                       alt=""
                     />
-                     <div>
+                    <div style={{marginBottom:'20px'}}>
                     <h3>{item?.node?.name &&
                       item.node.name.split(" ").slice(0, 2).join(" ")}</h3>
-                    </div>
                   </div>
-                 
+                  </div>
+                  
                 </div>
               </div>
             ))}
@@ -150,4 +152,7 @@ const FeatureProdcuts = () => {
   );
 };
 
-export default FeatureProdcuts;
+export default NewestProducts;
+
+
+

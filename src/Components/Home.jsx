@@ -3,13 +3,16 @@ import Carousel from "react-multi-carousel";
 import  { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import { Box, Typography } from "@mui/material";
-import { bannerData } from "../constants/data";
+import { bannerData,bannerData2,bannerData3 } from "../constants/data";
 import styled from "@emotion/styled";
 import { navData } from "../constants/data";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import * as React from 'react';
 import FeatureProdcuts from "./HomePageProducts/FeatureProdcuts";
+import NewestProducts from "./HomePageProducts/NewestProducts";
+import BestSellingProducts from "./HomePageProducts/BestSellingProducts";
+
 const Image=styled('img')`
     width:100%;
  
@@ -57,11 +60,11 @@ const responsive2 = {
   superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
-      items: 10
+      items: 6
     },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 10
+    items: 7
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
@@ -241,24 +244,35 @@ function Home() {
               </Carousel>
             </div>
       <FeatureProdcuts/>
-      <div style={{display:'flex',flexWrap:'wrap',gap:60,padding:20}}> 
-      {/* {
-
-        data && data.edges.map((item,index)=>{
-          return (
-            <div key={index} >
-                <div style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
-                    <div>
-                        <img height={500} width={500} src={item?.node?.images?.edges[0]?.node?.urlOriginal} alt="" />
-                    </div>
-                    <h2>{item?.node?.name && item.node.name.split(' ').slice(0, 4).join(' ')}</h2>
-                </div>
-               
+      <div style={{marginTop:'100px',marginBottom:'100px'}}>
+                <h1>Collections in focus</h1>
+              <Carousel responsive={responsive} infinite={true}   swipeable={false}
+                draggable={false} autoPlay={true}  containerClass="carousel-container" dotListClass="custom-dot-list-style"  itemClass="carousel-item-padding-40-px"  autoPlaySpeed={4000}>
+                  {
+                      bannerData3.map(data=>(
+                        <div style={{ margin: '0 10px' }}> {/* Adjust margin as needed */}
+                          <Image src={data.url} />
+                      </div>
+                      ))
+                  }
+              </Carousel>
             </div>
-          )
-        })
-      } */}
-      </div>
+      <NewestProducts/>
+      <div style={{marginTop:'100px',marginBottom:'100px'}}>
+                <h1>Collections in focus</h1>
+              <Carousel responsive={responsive} infinite={true}   swipeable={false}
+                draggable={false} autoPlay={true}  containerClass="carousel-container" dotListClass="custom-dot-list-style"  itemClass="carousel-item-padding-40-px"  autoPlaySpeed={4000}>
+                  {
+                      bannerData2.map(data=>(
+                        <div style={{ margin: '0 10px' }}> {/* Adjust margin as needed */}
+                          <Image src={data.url} />
+                      </div>
+                      ))
+                  }
+              </Carousel>
+            </div>
+      <BestSellingProducts/>
+     
       </div>
     </div>
   )

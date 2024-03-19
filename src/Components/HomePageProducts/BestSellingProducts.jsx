@@ -41,7 +41,7 @@ const responsive2 = {
     },
   };
 
-const FeatureProdcuts = () => {
+const BestSellingProducts = () => {
   const [data, setData] = useState("");
 
   useEffect(() => {
@@ -57,32 +57,32 @@ const FeatureProdcuts = () => {
       const graphQLUrl = `${storeUrl.origin}/graphql`;
 
       // Set up GraphQL query
-      const graphQLQuery = `
-          query MyQuery {
-            site {
-              featuredProducts(first: 10) {
-                edges {
-                  node {
-                    description
-                    id
-                    name
-                    prices {
-                      price {
-                        value
-                      }
-                    }
-                    images {
-                      edges {
-                        node {
-                          urlOriginal
-                        }
-                      }
+      const graphQLQuery = `query MyQuery {
+        site {
+          bestSellingProducts {
+            edges {
+              node {
+                id
+                images {
+                  edges {
+                    node {
+                      urlOriginal
                     }
                   }
                 }
+                name
+                prices {
+                  price {
+                    value
+                  }
+                }
+                sku
+                description
               }
             }
-          }`;
+          }
+        }
+      }`;
 
       // Fetch data from the GraphQL Storefront API
       return fetch(graphQLUrl, {
@@ -97,7 +97,7 @@ const FeatureProdcuts = () => {
       })
         .then((res) => res.json())
         .then((res) => {
-          setData(res.data?.site?.featuredProducts?.edges);
+          setData(res.data?.site?.bestSellingProducts?.edges);
           console.log(res.data?.site);
           res.data;
         });
@@ -111,7 +111,7 @@ const FeatureProdcuts = () => {
   return (
     <div>
       <div style={{ marginTop: "100px", marginBottom: "100px" }}>
-        <h1>Featured Products</h1>
+        <h1>BestSelling Products</h1>
         {data && (
           <Carousel
             responsive={responsive2}
@@ -135,11 +135,12 @@ const FeatureProdcuts = () => {
                       alt=""
                     />
                      <div>
-                    <h3>{item?.node?.name &&
-                      item.node.name.split(" ").slice(0, 2).join(" ")}</h3>
+                        <h3>{item?.node?.name &&
+                        item.node.name.split(" ").slice(0, 2).join(" ")}</h3>
                     </div>
-                  </div>
+                    </div>
                  
+                  
                 </div>
               </div>
             ))}
@@ -150,4 +151,10 @@ const FeatureProdcuts = () => {
   );
 };
 
-export default FeatureProdcuts;
+
+
+
+
+
+
+export default BestSellingProducts
