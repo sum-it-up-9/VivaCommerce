@@ -30,7 +30,7 @@ const responsive2 = {
   },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 4,
+    items: 5,
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
@@ -42,7 +42,7 @@ const responsive2 = {
   },
 };
 
-const FeatureProdcuts = () => {
+const RelatedProducts = () => {
   const [data, setData] = useState("");
 
   useEffect(() => {
@@ -58,32 +58,32 @@ const FeatureProdcuts = () => {
       const graphQLUrl = `${storeUrl.origin}/graphql`;
 
       // Set up GraphQL query
-      const graphQLQuery = `
-          query MyQuery {
-            site {
-              featuredProducts(first: 10) {
-                edges {
-                  node {
-                    description
-                    id
-                    name
-                    prices {
-                      price {
-                        value
-                      }
-                    }
-                    images {
-                      edges {
-                        node {
-                          urlOriginal
-                        }
-                      }
+      const graphQLQuery = `query MyQuery {
+        site {
+          bestSellingProducts {
+            edges {
+              node {
+                id
+                images {
+                  edges {
+                    node {
+                      urlOriginal
                     }
                   }
                 }
+                name
+                prices {
+                  price {
+                    value
+                  }
+                }
+                sku
+                description
               }
             }
-          }`;
+          }
+        }
+      }`;
 
       // Fetch data from the GraphQL Storefront API
       return fetch(graphQLUrl, {
@@ -98,7 +98,7 @@ const FeatureProdcuts = () => {
       })
         .then((res) => res.json())
         .then((res) => {
-          setData(res.data?.site?.featuredProducts?.edges);
+          setData(res.data?.site?.bestSellingProducts?.edges);
           console.log(res.data?.site);
           res.data;
         });
@@ -110,9 +110,16 @@ const FeatureProdcuts = () => {
   }, []);
 
   return (
-    <div>
-      <div style={{ marginTop: "100px", marginBottom: "100px" }}>
-        <h2 style={{ paddingLeft: "40px" }}>Featured Products</h2>
+    <div style={{ background: "#f9f9f9", }}>
+      <div
+        style={{
+          marginTop: "100px",
+          marginBottom: "80px",
+          marginLeft: "80px",
+          marginRight: "40px",
+        }}
+      >
+        <h1 style={{ marginLeft: "15px",paddingTop:'20px' }}>Related Products</h1>
         {data && (
           <Carousel
             responsive={responsive2}
@@ -126,21 +133,18 @@ const FeatureProdcuts = () => {
             autoPlaySpeed={4000}
           >
             {data.map((item, index) => (
-              <Link
-                to={`/product/${item.node.id}`}
-                style={{ textDecoration: "none", color: "black" }}
-              >
-                <div style={{ margin: "20px" }}>
+              <Link to={`/product/${item.node.id}`}>
+                <div>
+                  {console.log(item.node.id)}
                   <div>
                     <div
                       style={{
-                        position: "relative",
-                        border: "1px solid rgb(0,0,0,0.1)",
+                        border: "1px solid rgba(0, 0, 0, 0.2)",
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                         gap: "20px",
-                        margin: "0px 20px",
+                        margin: "0px 20px 20px 20px",
                       }}
                     >
                       <img
@@ -148,15 +152,7 @@ const FeatureProdcuts = () => {
                         src={item?.node?.images?.edges[0]?.node?.urlOriginal}
                         alt=""
                       />
-                      <div
-                        style={{
-                          height: "243px",
-                          width: "100%",
-                          position: "absolute",
-                          backgroundColor: "rgba(0, 0, 0, 0.2)",
-                        }}
-                      ></div>
-                      <div style={{ marginBottom: "20px" }}>
+                      <div>
                         <h3>
                           {item?.node?.name &&
                             item.node.name.split(" ").slice(0, 2).join(" ")}
@@ -174,4 +170,4 @@ const FeatureProdcuts = () => {
   );
 };
 
-export default FeatureProdcuts;
+export default RelatedProducts;

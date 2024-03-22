@@ -1,38 +1,22 @@
+import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-
-import './App.css'
-import {RouterProvider,createBrowserRouter} from "react-router-dom"
-import Home from './Components/Home';
-import Sports from './Components/Sports';
-import Outdoor from './Components/Outdoor';
-
+import Home from './Pages/Home'
+import Sports from './Pages/Sports';
+import Outdoor from './Pages/Outdoor';
+import ProductDisplay from './Components/PDP/ProductDisplay';
 
 function App() {
- 
-  const router=createBrowserRouter([
-    {
-      path:'/',
-      element:<Home/>, 
-      children:[
-        {
-          path:'/sports',
-          element:<Sports/>,
-        },
-        {
-          path:'/outdoors',
-          element:<Outdoor/>,
-        }
-
-      ]
-    },
-    ]
-    )
-  
   return (
-    <>
-      <RouterProvider router={router}/>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/sports" element={<Sports />} />
+        <Route path="/outdoors" element={<Outdoor />} />
+        <Route path="/product/:id" element={<ProductDisplay />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

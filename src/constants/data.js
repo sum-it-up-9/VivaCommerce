@@ -5,6 +5,7 @@ export const bannerData = [
 
 ];
 
+
 export const bannerData2 = [
     { id: 1, url: 'https://contents.mediadecathlon.com/s1070942/k$4a0705d5e9da426f1e8c39a14ebe831a/defaut.jpg?format=auto&quality=70&f=440x0' },
     { id: 2, url: 'https://contents.mediadecathlon.com/s1070941/k$51928947c1d78b1e53d1892c926f38af/defaut.jpg?format=auto&quality=70&f=440x0' },
@@ -18,6 +19,13 @@ export const bannerData3 = [
     { id: 3, url: 'https://contents.mediadecathlon.com/s1070937/k$6beb791e7c77b187ef47c522f9d53660/defaut.jpg?format=auto&quality=70&f=440x0' },
 
 ];
+
+export const bannerData4 = [
+     { id: 2, url: 'https://rukminim1.flixcart.com/flap/3376/560/image/57267a180af306fe.jpg?q=50' },
+    { id: 3, url: 'https://rukminim1.flixcart.com/flap/3376/560/image/ae9966569097a8b7.jpg?q=50' },
+    { id: 4, url: 'https://rukminim1.flixcart.com/flap/3376/560/image/f6202f13b6f89b03.jpg?q=50' }
+];
+
 
 export const navData = [
   

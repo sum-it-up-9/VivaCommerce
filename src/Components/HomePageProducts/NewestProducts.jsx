@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
+import { Link } from "react-router-dom";
 
 const responsive = {
   superLargeDesktop: {
@@ -22,24 +23,24 @@ const responsive = {
 };
 
 const responsive2 = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 4,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items:2,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 3,
-    },
-  };
+  superLargeDesktop: {
+    // the naming can be any, depends on you.
+    breakpoint: { max: 4000, min: 3000 },
+    items: 5,
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 4,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2,
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 3,
+  },
+};
 
 const NewestProducts = () => {
   const [data, setData] = useState("");
@@ -100,7 +101,7 @@ const NewestProducts = () => {
         .then((res) => res.json())
         .then((res) => {
           setData(res.data?.site?.newestProducts?.edges);
-          console.log(res.data?.site);
+          //console.log(res.data?.site);
           res.data;
         });
     }
@@ -113,7 +114,7 @@ const NewestProducts = () => {
   return (
     <div>
       <div style={{ marginTop: "100px", marginBottom: "100px" }}>
-        <h1>Newest Products</h1>
+        <h2 style={{ paddingLeft: "40px" }}>Newest Products</h2>
         {data && (
           <Carousel
             responsive={responsive2}
@@ -127,23 +128,43 @@ const NewestProducts = () => {
             autoPlaySpeed={4000}
           >
             {data.map((item, index) => (
-              <div>
-              
-                <div>
-                  <div style={{border:'1px solid rgba(0, 0, 0, 0.2)',display:'flex',flexDirection:'column',alignItems:'center',gap:'20px',margin:'0px 20px'}}>
-                    <img
-                      style={{ height: "273px", width: "100%"}}
-                      src={item?.node?.images?.edges[0]?.node?.urlOriginal}
-                      alt=""
-                    />
-                    <div style={{marginBottom:'20px'}}>
-                    <h3>{item?.node?.name &&
-                      item.node.name.split(" ").slice(0, 2).join(" ")}</h3>
+              <Link to={`/product/${item.node.id}`} style={{textDecoration:'none',color:'black'}}>
+                <div style={{ margin: "20px" }}>
+                  <div>
+                    <div
+                      style={{
+                        position: "relative",
+                        border: "1px solid rgb(0,0,0,0.1)",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: "20px",
+                        margin: "0px 20px",
+                      }}
+                    >
+                      <img
+                        style={{ height: "243px", width: "100%" }}
+                        src={item?.node?.images?.edges[0]?.node?.urlOriginal}
+                        alt=""
+                      />
+                      <div
+                        style={{
+                          height: "243px",
+                          width: "100%",
+                          position: "absolute",
+                          backgroundColor: "rgba(0, 0, 0, 0.2)",
+                        }}
+                      ></div>
+                      <div style={{ marginBottom: "20px" }}>
+                        <h3>
+                          {item?.node?.name &&
+                            item.node.name.split(" ").slice(0, 2).join(" ")}
+                        </h3>
+                      </div>
+                    </div>
                   </div>
-                  </div>
-                  
                 </div>
-              </div>
+              </Link>
             ))}
           </Carousel>
         )}
@@ -153,6 +174,3 @@ const NewestProducts = () => {
 };
 
 export default NewestProducts;
-
-
-
