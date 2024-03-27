@@ -4,4 +4,7 @@
 }
 *{
      font-family: "Noto IKEA", "Noto Sans", "Roboto", "Open Sans", system-ui, sans-serif !important;
+     padding: 0;
+     margin: 0;
+     box-sizing: border-box;
 }

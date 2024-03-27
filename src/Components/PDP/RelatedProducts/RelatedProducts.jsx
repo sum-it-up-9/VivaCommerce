@@ -47,9 +47,9 @@ const RelatedProducts = () => {
 
   useEffect(() => {
     let params = {
-      store_url: "https://vivacommerce-b2b-demo-i9.mybigcommerce.com",
+      store_url: "https://store-eagnf01idv-1557198.mybigcommerce.com",
       token:
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cDovL2xvY2FsaG9zdDo1MTczIl0sImVhdCI6MTg4NTYzNTE3NiwiaWF0IjoxNzEwMjM4MjY1LCJpc3MiOiJCQyIsInNpZCI6MTAwMzExMTAyOCwic3ViIjoiMjN4Nmk2ang2eDZ4dTI0ZnIxcTVhOGY0eGVlOXd6MCIsInN1Yl90eXBlIjoyLCJ0b2tlbl90eXBlIjoxfQ.gnG-gcJxJGUuhmhwsBAlkp_ei6dDelbsvcKtnKjd9J49Lzf8CLBc8xnOvKu7hpI6eJ5oRiLiVN2dmKCCtDzvow",
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjE1NTcxOTgsImNvcnMiOlsiaHR0cDovL2xvY2FsaG9zdDo1MTczIl0sImVhdCI6MTg4NTYzNTE3NiwiaWF0IjoxNzExNDM4MTQxLCJpc3MiOiJCQyIsInNpZCI6MTAwMzExMTAyOCwic3ViIjoiMjN4Nmk2ang2eDZ4dTI0ZnIxcTVhOGY0eGVlOXd6MCIsInN1Yl90eXBlIjoyLCJ0b2tlbl90eXBlIjoxfQ.mpEtxNKM-vQVKjLZtNNuipnGytcdie-4V3Hz2xF_DkRplXM7Ge_kHT0cd_tP9yBB0E9zA4QnEto089gkXebD4w",
     };
     function getProductInfo(params) {
       const storeUrl = new URL(params.store_url);
@@ -99,7 +99,7 @@ const RelatedProducts = () => {
         .then((res) => res.json())
         .then((res) => {
           setData(res.data?.site?.bestSellingProducts?.edges);
-          console.log(res.data?.site);
+         // console.log(res.data?.site);
           res.data;
         });
     }
@@ -133,9 +133,9 @@ const RelatedProducts = () => {
             autoPlaySpeed={4000}
           >
             {data.map((item, index) => (
-              <Link to={`/product/${item.node.id}`}>
+              <Link key={index} to={`/product/${item.node.id}`}>
                 <div>
-                  {console.log(item.node.id)}
+                 
                   <div>
                     <div
                       style={{
