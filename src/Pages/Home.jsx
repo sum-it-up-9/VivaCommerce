@@ -94,6 +94,10 @@ const responsive3 = {
   },
 };
 
+const token=import.meta.env.VITE_TOKEN
+const store_url=import.meta.env.VITE_STORE_URL
+
+
 
 function Home() {
   const [data, setData] = useState("");
@@ -102,9 +106,8 @@ function Home() {
   
   useEffect(() => {
     let params = {
-      store_url: "https://store-eagnf01idv-1557198.mybigcommerce.com",
-      token:
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjE1NTcxOTgsImNvcnMiOlsiaHR0cDovL2xvY2FsaG9zdDo1MTczIl0sImVhdCI6MTg4NTYzNTE3NiwiaWF0IjoxNzExNDM4MTQxLCJpc3MiOiJCQyIsInNpZCI6MTAwMzExMTAyOCwic3ViIjoiMjN4Nmk2ang2eDZ4dTI0ZnIxcTVhOGY0eGVlOXd6MCIsInN1Yl90eXBlIjoyLCJ0b2tlbl90eXBlIjoxfQ.mpEtxNKM-vQVKjLZtNNuipnGytcdie-4V3Hz2xF_DkRplXM7Ge_kHT0cd_tP9yBB0E9zA4QnEto089gkXebD4w",
+      store_url: store_url,
+      token:token,
     };
     function getProductInfo(params) {
       const storeUrl = new URL(params.store_url);
@@ -311,8 +314,9 @@ function Home() {
             itemClass="carousel-item-padding-40-px"
             autoPlaySpeed={4000}
           >
-            {navData.map((data) => (
-              <div
+            {navData.map((data,index) => (
+              <div 
+                key={index}
                 style={{
                   display: "flex",
                   flexDirection: "column",
@@ -345,8 +349,8 @@ function Home() {
             itemClass="carousel-item-padding-40-px"
             autoPlaySpeed={4000}
           >
-            {bannerData4.map((data) => (
-              <Image src={data.url} style={{height:'290px'}} />
+            {bannerData4.map((data,index) => (
+              <Image key={index} src={data.url} style={{height:'290px'}} />
             ))}
           </Carousel>
       </div>
@@ -372,8 +376,8 @@ function Home() {
             itemClass="carousel-item-padding-40-px"
             autoPlaySpeed={4000}
           >
-            {bannerData.map((data) => (
-              <div style={{ margin: "0 10px" }}>
+            {bannerData.map((data,index) => (
+              <div key={index} style={{ margin: "0 10px" }}>
                 {" "}
                 {/* Adjust margin as needed */}
                 <Image
@@ -400,8 +404,8 @@ function Home() {
             itemClass="carousel-item-padding-40-px"
             autoPlaySpeed={4000}
           >
-            {bannerData3.map((data) => (
-              <div style={{ margin: "0 10px" }}>
+            {bannerData3.map((data,index) => (
+              <div  key={index} style={{ margin: "0 10px" }}>
                 {" "}
                 {/* Adjust margin as needed */}
                 <Image src={data.url} style={{ borderRadius: "15px" }} />
@@ -425,8 +429,8 @@ function Home() {
             itemClass="carousel-item-padding-40-px"
             autoPlaySpeed={4000}
           >
-            {bannerData2.map((data) => (
-              <div style={{ margin: "0 10px" }}>
+            {bannerData2.map((data,index) => (
+              <div   key={index} style={{ margin: "0 10px" }}>
                 {" "}
                 {/* Adjust margin as needed */}
                 <Image src={data.url} style={{ borderRadius: "15px" }} />

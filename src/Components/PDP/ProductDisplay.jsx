@@ -18,6 +18,8 @@ import VaraintButton from "./VaraintButton";
 import TabComponent from "./TabComponent";
 import NumberInput from "./NumberInput";
 
+
+
 const StyledBadge = styled(Badge)`
   margin-right: 10px;
   color: #00cc00;
@@ -66,19 +68,24 @@ const StyledButton2 = styled(Button)`
 `;
 
 const optionDisplayNames = new Set();
+const token=import.meta.env.VITE_TOKEN
+const store_url=import.meta.env.VITE_STORE_URL
+
+
 const ProductDisplay = () => {
   const [productData, setData] = useState("");
   const [refState, setRefState] = useState({});
-  const [quantity,setQuantity]=useState(1);
+  const [quantity, setQuantity] = useState(1);
   const [options, setOptions] = useState("");
   const [price, setPrice] = useState("");
   const ref = useRef({});
+  const [one_on_one, setOne_on_one] = useState([]);
+  const [one_on_two, setOne_on_two] = useState([]);
 
-  console.log(optionDisplayNames);
-  let {id} = useParams();
-  console.log(id,'js');
- 
-  
+ // console.log(optionDisplayNames);
+  let { id } = useParams();
+  //console.log(id, "js");
+
   const handleVariantClick = (optionName, value) => {
     ref.current[optionName] = value;
     const newRefState = { ...refState, [optionName]: value };
@@ -110,8 +117,6 @@ const ProductDisplay = () => {
         return;
       }
     });
-
-    
   }
 
   function buyNow(productData) {
@@ -139,20 +144,19 @@ const ProductDisplay = () => {
       }
     });
 
-    console.log("heheh");
+   // console.log("heheh");
   }
 
   function getProductInfo(id) {
     let params = {
-      store_url: "https://vivacommerce-b2b-demo-i9.mybigcommerce.com",
-      token:
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cDovL2xvY2FsaG9zdDo1MTczIl0sImVhdCI6MTg4NTYzNTE3NiwiaWF0IjoxNzEwMjM4MjY1LCJpc3MiOiJCQyIsInNpZCI6MTAwMzExMTAyOCwic3ViIjoiMjN4Nmk2ang2eDZ4dTI0ZnIxcTVhOGY0eGVlOXd6MCIsInN1Yl90eXBlIjoyLCJ0b2tlbl90eXBlIjoxfQ.gnG-gcJxJGUuhmhwsBAlkp_ei6dDelbsvcKtnKjd9J49Lzf8CLBc8xnOvKu7hpI6eJ5oRiLiVN2dmKCCtDzvow",
+      store_url: store_url,
+      token:token,
     };
     const storeUrl = new URL(params.store_url);
 
     // Use the store's canonical URL which should always resolve
     const graphQLUrl = `${storeUrl.origin}/graphql`;
-  
+
     // Set up GraphQL query
     const graphQLQuery = `
         query MyQuery ($id:ID!) {
@@ -160,6 +164,15 @@ const ProductDisplay = () => {
             product(id: $id) {
               id
               name
+              customFields {
+                edges {
+                  node {
+                    entityId
+                    name
+                    value
+                  }
+                }
+              }
               options {
                 edges {
                   node {
@@ -288,16 +301,29 @@ const ProductDisplay = () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${params.token}`,
       },
-      body: JSON.stringify({ query: graphQLQuery,variables: {
-       id:id
-    } }),
+      body: JSON.stringify({
+        query: graphQLQuery,
+        variables: {
+          id: id,
+        },
+      }),
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
+       // console.log(res);
         setData(res.data?.site?.product);
         setOptions(res?.data?.site?.product?.options?.edges);
         setPrice(res.data?.site?.product?.prices?.price?.value);
+        setOne_on_one(
+          res.data?.site?.product?.customFields?.edges?.map((ietm, index) => {
+            if (item.node?.name === "one_on_one") {
+              setOne_on_one(item.node?.value);
+            }
+            if (item.node?.name === "one_on_two") {
+              setOne_on_two(item.node?.value);
+            }
+          })
+        );
         return res.data;
       });
   }
@@ -306,8 +332,13 @@ const ProductDisplay = () => {
     getProductInfo(id);
   }, []);
 
+
+  useEffect(()=>{
+
+  },[one_on_one,one_on_two]);
+
   useEffect(() => {
-   // console.log("refss:", refState);
+    // console.log("refss:", refState);
     if (optionDisplayNames.size !== Object.keys(refState).length) {
       return;
     }
@@ -396,8 +427,15 @@ const ProductDisplay = () => {
               {/* <span style={{ color: '#388E3C' }}>{productData?.price?.discount} off</span> */}
             </Typography>
             {/* <Typography><h3>Available offers</h3></Typography> */}
-         
-            <NumberInput style={{margin:'6px 0px'}} aria-label="Quantity Input" min={1} max={99}   value={quantity} onChange={(event, val) => setQuantity(val)} />
+
+            <NumberInput
+              style={{ margin: "6px 0px" }}
+              aria-label="Quantity Input"
+              min={1}
+              max={99}
+              value={quantity}
+              onChange={(event, val) => setQuantity(val)}
+            />
             <div>
               <div>
                 {options &&

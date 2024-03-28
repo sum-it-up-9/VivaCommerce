@@ -41,15 +41,16 @@ const responsive2 = {
     items: 3,
   },
 };
+const token=import.meta.env.VITE_TOKEN
+const store_url=import.meta.env.VITE_STORE_URL
 
 const FeatureProdcuts = () => {
   const [data, setData] = useState("");
 
   useEffect(() => {
     let params = {
-      store_url: "https://store-eagnf01idv-1557198.mybigcommerce.com",
-      token:
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjE1NTcxOTgsImNvcnMiOlsiaHR0cDovL2xvY2FsaG9zdDo1MTczIl0sImVhdCI6MTg4NTYzNTE3NiwiaWF0IjoxNzExNDM4MTQxLCJpc3MiOiJCQyIsInNpZCI6MTAwMzExMTAyOCwic3ViIjoiMjN4Nmk2ang2eDZ4dTI0ZnIxcTVhOGY0eGVlOXd6MCIsInN1Yl90eXBlIjoyLCJ0b2tlbl90eXBlIjoxfQ.mpEtxNKM-vQVKjLZtNNuipnGytcdie-4V3Hz2xF_DkRplXM7Ge_kHT0cd_tP9yBB0E9zA4QnEto089gkXebD4w",
+      store_url: store_url,
+      token:token,
     };
     function getProductInfo(params) {
       const storeUrl = new URL(params.store_url);
@@ -127,6 +128,7 @@ const FeatureProdcuts = () => {
           >
             {data.map((item, index) => (
               <Link
+                key={index}
                 to={`/product/${item.node.id}`}
                 style={{ textDecoration: "none", color: "black" }}
               >
